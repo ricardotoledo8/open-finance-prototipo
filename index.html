@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Open Finance Analytics — Protótipo</title>
+  <meta name="description" content="Protótipo de landing page e mini-dashboard para uma plataforma de Open Finance." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/styles.css" />
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script defer src="assets/app.js"></script>
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#hero" aria-label="Voltar ao topo">
+      <span class="brand-icon">A²</span>
+      <span class="brand-name">Open Finance Analytics</span>
+    </a>
+    <nav class="nav-links" aria-label="Navegação principal">
+      <a href="#features">Recursos</a>
+      <a href="#dashboard">Dashboard</a><a href="#nbo">NBO & ROI</a>
+      <a href="#precos">Planos</a>
+      <a href="#contato" class="btn btn--ghost">Fale conosco</a>
+    </nav>
+  </header>
+
+  <main>
+    <section id="hero" class="hero">
+      <div class="hero__content">
+        <h1>Transforme dados do Open Finance em <span class="highlight">resultado</span></h1>
+        <p>Prototipagem rápida de análises, segmentação e Next Best Offer — com gráficos ao vivo e KPIs atualizados.</p>
+        <div class="cta">
+          <a class="btn btn--primary" href="#dashboard">Ver demo do dashboard</a>
+          <a class="btn btn--secondary" href="#precos">Explorar planos</a>
+        </div>
+        <ul class="badges" aria-label="Diferenciais">
+          <li>⚡ Setup em minutos</li>
+          <li>🔒 LGPD-ready</li>
+          <li>🧠 Insights com IA</li>
+        </ul>
+      </div>
+      <div class="hero__visual" role="img" aria-label="Visualização de um painel com KPIs e gráfico de crescimento">
+        <div class="glass kpis">
+          <div class="kpi"><span class="kpi__label">Clientes</span><span id="kpiClientes" class="kpi__value">—</span></div>
+          <div class="kpi"><span class="kpi__label">Ticket Médio</span><span id="kpiTicket" class="kpi__value">—</span></div>
+          <div class="kpi"><span class="kpi__label">Aprovação Crédito</span><span id="kpiAprov" class="kpi__value">—</span></div>
+        </div>
+        <canvas id="heroSpark" aria-label="Mini gráfico de tendência" role="img"></canvas>
+      </div>
+    </section>
+
+    <section id="features" class="features">
+      <h2>Recursos que importam</h2>
+      <div class="grid">
+        <article class="card">
+          <h3>Integração Open Finance</h3>
+          <p>Conectores prontos para bancos, cartões e empréstimos. Normalização de dados e categorização inteligente.</p>
+        </article>
+        <article class="card">
+          <h3>Modelos Prontos</h3>
+          <p>Propensão a compra, risco de crédito e detecção de renda com ajustes por segmento.</p>
+        </article>
+        <article class="card">
+          <h3>Orquestração de Ofertas</h3>
+          <p>Engine de Next Best Offer com simulações e cenários de ROI.</p>
+        </article>
+        <article class="card">
+          <h3>Governança & LGPD</h3>
+          <p>Trilhas de auditoria, consentimentos e controles de acesso granulares.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="dashboard" class="dashboard">
+      <div class="dash-head">
+        <h2>Mini‑Dashboard ao vivo</h2>
+        <p>Dados fictícios para demonstração. Altere os filtros e observe os KPIs e o gráfico reagirem em tempo real.</p>
+      </div>
+
+      <form class="filters" aria-label="Filtros do dashboard">
+        <label>
+          Segmento
+          <select id="filtroSegmento">
+            <option value="todos">Todos</option>
+            <option value="varejo">Varejo</option>
+            <option value="pmE">PME</option>
+            <option value="corporate">Corporate</option>
+          </select>
+        </label>
+        <label>
+          Período
+          <select id="filtroPeriodo">
+            <option value="6">6 meses</option>
+            <option value="12" selected>12 meses</option>
+            <option value="24">24 meses</option>
+          </select>
+        </label>
+        <button type="button" id="btnAplicar" class="btn btn--primary">Aplicar</button>
+      </form>
+
+      <div class="dash-grid">
+        <div class="panel panel--kpis">
+          <div class="kpi"><span class="kpi__label">Clientes ativos</span><span id="kpiClientes2" class="kpi__value">—</span></div>
+          <div class="kpi"><span class="kpi__label">Receita por cliente</span><span id="kpiReceita" class="kpi__value">—</span></div>
+          <div class="kpi"><span class="kpi__label">Inadimplência</span><span id="kpiInad" class="kpi__value">—</span></div>
+          <div class="kpi"><span class="kpi__label">Conversão NBO</span><span id="kpiNbo" class="kpi__value">—</span></div>
+        </div>
+
+        <div class="panel panel--chart">
+          <canvas id="growthChart" aria-label="Crescimento de clientes" role="img"></canvas>
+        </div>
+      </div>
+    </section>
+
+    
+    <section id="nbo" class="nbo">
+      <div class="nbo-head">
+        <h2>Next Best Offer — Simulador de ROI</h2>
+        <p>Defina um público-alvo, escolha um produto e ajuste os parâmetros. O simulador estima aceitação, receita incremental, CAC e ROI esperado.</p>
+      </div>
+
+      <form class="nbo-controls" aria-label="Parâmetros da simulação">
+        <label>
+          Segmento
+          <select id="nboSegmento">
+            <option value="varejo">Varejo</option>
+            <option value="pmE">PME</option>
+            <option value="corporate">Corporate</option>
+          </select>
+        </label>
+
+        <label>
+          Produto
+          <select id="nboProduto">
+            <option value="cartao">Cartão com limite adicional</option>
+            <option value="emprestimo">Empréstimo consignado digital</option>
+            <option value="conta">Conta premium (cashback)</option>
+          </select>
+        </label>
+
+        <label>
+          Base elegível (clientes)
+          <input id="nboBase" type="number" min="1000" step="500" value="20000" />
+        </label>
+
+        <label>
+          Taxa base de conversão (%)
+          <input id="nboConvBase" type="number" min="0" max="50" step="0.1" value="4.0" />
+        </label>
+
+        <label>
+          Uplift esperado (%)
+          <input id="nboUplift" type="number" min="0" max="200" step="1" value="25" />
+        </label>
+
+        <label>
+          Ticket/margem por conversão (R$)
+          <input id="nboMargem" type="number" min="10" step="10" value="180" />
+        </label>
+
+        <label>
+          CAC por cliente convertido (R$)
+          <input id="nboCAC" type="number" min="0" step="1" value="35" />
+        </label>
+
+        <button type="button" id="nboRodar" class="btn btn--primary">Rodar simulação</button>
+      </form>
+
+      <div class="nbo-grid">
+        <div class="panel">
+          <h3 class="panel-title">Resultados</h3>
+          <ul class="nbo-kpis">
+            <li><span>Conversões (estimadas)</span><strong id="nboConvOut">—</strong></li>
+            <li><span>Receita incremental</span><strong id="nboReceitaOut">—</strong></li>
+            <li><span>Custo total (CAC)</span><strong id="nboCacOut">—</strong></li>
+            <li><span>ROI</span><strong id="nboRoiOut">—</strong></li>
+            <li><span>Payback (meses)</span><strong id="nboPaybackOut">—</strong></li>
+          </ul>
+        </div>
+        <div class="panel">
+          <canvas id="nboChart" aria-label="Comparação Base vs. Campanha" role="img"></canvas>
+        </div>
+      </div>
+
+      <details class="nbo-notes">
+        <summary>Metodologia (simplificada)</summary>
+        <p><strong>Conversões estimadas</strong> = Base elegível × (Taxa base × (1 + Uplift)).</p>
+        <p><strong>Receita incremental</strong> = Conversões × Ticket/margem por conversão.</p>
+        <p><strong>Custo total</strong> = Conversões × CAC.</p>
+        <p><strong>ROI</strong> = (Receita incremental − Custo total) / Custo total.</p>
+        <p><strong>Payback</strong> assume margens mensais equivalentes a 1/12 do ticket informado.</p>
+      </details>
+    </section>
+
+
+    <section id="precos" class="pricing">
+      <h2>Planos</h2>
+      <div class="pricing-grid">
+        <article class="price-card">
+          <h3>Start</h3>
+          <p class="price"><strong>R$ 0</strong> / 14 dias</p>
+          <ul>
+            <li>Demo de conectores</li>
+            <li>Dashboard básico</li>
+            <li>Suporte por e‑mail</li>
+          </ul>
+          <a href="#contato" class="btn btn--secondary">Experimentar</a>
+        </article>
+        <article class="price-card price-card--highlight">
+          <h3>Scale</h3>
+          <p class="price"><strong>R$ 3.990</strong> / mês</p>
+          <ul>
+            <li>Conectores completos</li>
+            <li>Modelos preditivos</li>
+            <li>Orquestração NBO</li>
+          </ul>
+          <a href="#contato" class="btn btn--primary">Falar com vendas</a>
+        </article>
+        <article class="price-card">
+          <h3>Enterprise</h3>
+          <p class="price"><strong>Custom</strong></p>
+          <ul>
+            <li>On‑prem / VPC</li>
+            <li>SLAs dedicados</li>
+            <li>Governança avançada</li>
+          </ul>
+          <a href="#contato" class="btn btn--ghost">Agendar demo</a>
+        </article>
+      </div>
+    </section>
+
+    <section id="contato" class="contact">
+      <h2>Vamos conversar?</h2>
+      <form class="contact-form" aria-label="Formulário de contato" onsubmit="return false;">
+        <label>Nome <input type="text" placeholder="Seu nome" required></label>
+        <label>E‑mail <input type="email" placeholder="voce@empresa.com" required></label>
+        <label>Mensagem <textarea rows="4" placeholder="Conte em 2 linhas o seu desafio"></textarea></label>
+        <button class="btn btn--primary">Enviar</button>
+        <p class="form-note">* Protótipo — formulário não envia dados.</p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>© 2025 Open Finance Analytics — Protótipo criado com GPT‑5</p>
+  </footer>
+</body>
+</html>
